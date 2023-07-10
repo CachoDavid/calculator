@@ -1,0 +1,127 @@
+* {
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background: #000;
+}
+
+#displayCalc{
+  width:300px;
+  margin: 24px auto 0;
+  padding: 0;
+  background: #363e48;
+
+}
+
+#display1{
+  display: flex;
+  height: 60px;
+  padding: 10px 20px 5px;
+  font-size: 24px;
+  align-items: center;
+  justify-content:right;
+  color: #fff;
+} 
+
+
+
+
+
+#line{
+  display: flex;
+  width: 270px;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  margin: 0px auto;
+  border-top: 3px dotted #4A596C;
+}
+
+#display2{
+  display: flex;
+  height: 97px;
+  padding: 20px 30px 5px;
+  font-size: 42px;
+  align-items: center;
+  justify-content:right;
+  color: #fff;
+  position: relative;
+} 
+
+
+#display2 span {
+  color: #E0B612;
+  position: absolute; 
+  //animation: blink 1s infinite; 
+}
+
+#clean {
+  color: #E0B612;
+  position: absolute; 
+  animation: blink 1s infinite; 
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+#calcButtons {
+  width:300px;
+  margin: 0px auto;
+  background: #363e48;
+
+}
+
+#calcButtons .row {
+  display: flex;
+  gap: 3px;
+  padding: 1.5px; 
+}
+
+
+.button {
+  color: white;
+  background: #4A596C;
+  font-size: 32px;
+
+  width:4.875rem;
+  height:4.875rem;
+  
+  display: flex;  
+  justify-content: center;  
+  text-align: center;
+  align-items: center;
+  weight: bold;
+  
+}
+
+.button:hover {
+  background: #E0B612;
+  color: #404D5E;
+}
+
+.button.operator {
+  background: #404D5E;
+}
+
+.button.operator:hover {
+  background: #CCA408;
+  color:  #E0B612;
+}
+
+div[class*="clean"]:not(.cleanChar){
+  color: #D95D4E;
+}
