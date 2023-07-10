@@ -1,64 +1,99 @@
-class Calculator {
-  constructor(displayTextPreview, displayTextCurrent) {
-    this.displayTextPreview = displayTextPreview;
-    this.displayTextCurrent = displayTextCurrent;
-    this.clear();
+// JavaScript
+window.addEventListener("DOMContentLoaded", () => {
+  const calculation = document.getElementById("calculation");
+  const result = document.getElementById("result");
+  const numericButtons = document.querySelectorAll(".num");
+  const operatorButtons = document.querySelectorAll(".operator");
+
+  let currentCalculation = "";
+  let currentResult = "";
+
+  numericButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const buttonValue = button.textContent;
+      updateCalculation(buttonValue);
+    });
+  });
+
+  operatorButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const buttonValue = button.textContent;
+
+      if (buttonValue === "=") {
+        calculateResult();
+      } else if (buttonValue === "C") {
+        clearAll();
+      } else if (buttonValue === "CE") {
+        clearRow();
+      } else if (buttonValue === "<") {
+        removeLastChar();
+      } else {
+        addOperator(buttonValue);
+      }
+    });
+  });
+
+  function addOperator(value) {
+    currentCalculation += value;
+    calculation.textContent = currentCalculation;
+    currentResult = "";
+    result.textContent = currentResult;
   }
 
-  chooseOperation(operation) {
-    if (this.operation === "=") {
-      this.calculator();
+  function updateCalculation(value) {
+    if (hasPointer(value)) return;
+
+    if (isCleanChar(value)) {
+      removeLastChar();
+      return;
     }
 
-    this.operation = operation;
-    this.previousOperand = `${this.CurrentOperand} ${this.operation}`;
-    this.CurrentOperand = "";
+    currentCalculation += value;
+    currentResult += value;
+    calculation.textContent = currentCalculation;
+    result.textContent = currentResult;
   }
 
-  appendNumber(number) {
-    if (this.CurrentOperand.includes(".") && number === ".") return;
-    this.CurrentOperand = `${this.CurrentOperand}${number.toString()}`;
+  const hasPointer = (value) =>
+    value === "." && currentCalculation.includes(".");
+
+  const isCleanChar = (value) => value === "<";
+
+  function calculateResult() {
+    try {
+      currentResult = eval(currentCalculation.replace("x", "*"));
+      result.textContent = currentResult.replace("Infinity", "Error");
+    } catch (error) {
+      result.textContent = "Error";
+    }
   }
 
-  clear() {
-    this.CurrentOperand = "";
-    this.previousOperand = "";
-    this.operation = undefined;
+  function clearAll() {
+    currentCalculation = "";
+    currentResult = "";
+    calculation.innerHTML = "";
+    result.textContent = "";
   }
 
-  updateDisplay() {
-    this.displayTextPreview.innerText = this.previousOperand;
-    this.displayTextCurrent.innerText = this.CurrentOperand;
+  function clearRow() {
+    if (currentResult.length === 0) return;
+    const currentResultsLength = currentResult.length;
+    currentCalculation = currentCalculation.slice(0, currentResultsLength * -1);
+    currentResult = "";
+    calculation.textContent = currentCalculation;
+    result.textContent = currentResult;
   }
-}
-const numberButtons = document.querySelectorAll(".button.num");
-const operationButtons = document.querySelectorAll(".button.operator");
-const equalsButtons = document.querySelector(".equal");
-const cleanAllButtons = document.querySelector(".cleanAll");
-const cleanRowButtons = document.querySelector(".cleanRow");
-const displayTextPreview = document.getElementById("calculation");
-const displayTextCurrent = document.getElementById("result");
 
-const calculator = new Calculator(displayTextPreview, displayTextCurrent);
-numberButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    console.log(
-      "🚀 ~ file: script.js:49 ~ numberButtons.forEach ~ button:",
-      button.innerText
-    );
-    calculator.appendNumber(button.innerText);
-    calculator.updateDisplay();
-  });
-});
+  function removeLastChar() {
+    if (currentResult.length === 0) return;
 
-for (const operationButton of operationButtons) {
-  operationButton.addEventListener("click", () => {
-    calculator.chooseOperation(operationButton.innerText);
-    calculator.updateDisplay();
-  });
-}
+    currentCalculation = currentCalculation.slice(0, -1);
+    currentResult = currentResult.slice(0, -1);
+    calculation.textContent = currentCalculation;
+    result.textContent = currentResult;
+  }
 
-cleanAllButtons.addEventListener("click", () => {
-  calculator.clear();
-  calculator.updateDisplay();
+  function displayResult(value) {
+    result.textContent = value;
+  }
 });
