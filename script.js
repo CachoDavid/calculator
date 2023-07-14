@@ -62,7 +62,7 @@ window.addEventListener("DOMContentLoaded", () => {
   function calculateResult() {
     try {
       currentResult = eval(currentCalculation.replace("x", "*"));
-      result.textContent = currentResult.replace("Infinity", "Error");
+      result.textContent = currentResult;
     } catch (error) {
       result.textContent = "Error";
     }
