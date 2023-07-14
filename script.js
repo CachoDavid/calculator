@@ -34,6 +34,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   function addOperator(value) {
+    if (currentCalculation.length > 0 && hasOperator()) return;
     currentCalculation += value;
     calculation.textContent = currentCalculation;
     currentResult = "";
@@ -56,6 +57,33 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const hasPointer = (value) =>
     value === "." && currentCalculation.includes(".");
+
+  function hasOperator() {
+    const operators = ["+", "-", "x", "/", "^"];
+    const lastOperatorIndex = Math.max(
+      currentCalculation.lastIndexOf("+"),
+      currentCalculation.lastIndexOf("-"),
+      currentCalculation.lastIndexOf("x"),
+      currentCalculation.lastIndexOf("/"),
+      currentCalculation.lastIndexOf("^")
+    );
+
+    const lastNonOperatorIndex = Math.max(
+      currentCalculation.lastIndexOf("."),
+      currentCalculation.lastIndexOf("0"),
+      currentCalculation.lastIndexOf("1"),
+      currentCalculation.lastIndexOf("2"),
+      currentCalculation.lastIndexOf("3"),
+      currentCalculation.lastIndexOf("4"),
+      currentCalculation.lastIndexOf("5"),
+      currentCalculation.lastIndexOf("6"),
+      currentCalculation.lastIndexOf("7"),
+      currentCalculation.lastIndexOf("8"),
+      currentCalculation.lastIndexOf("9")
+    );
+
+    return lastOperatorIndex > lastNonOperatorIndex;
+  }
 
   const isCleanChar = (value) => value === "<";
 
